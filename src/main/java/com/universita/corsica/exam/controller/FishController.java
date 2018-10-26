@@ -5,6 +5,7 @@ import com.universita.corsica.exam.model.LogPosition;
 import com.universita.corsica.exam.service.FishService;
 import com.universita.corsica.exam.service.LogPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -44,12 +45,23 @@ public class FishController {
 
     @GetMapping("/{id}/positions")
     public ResponseEntity<List<LogPosition>> getLogs(@PathVariable("id") String id){
-        List<LogPosition> logs = logPositionService.getLastLogsForCurrentDayById(id);
+        List<LogPosition> logs = logPositionService.get5LastLogsById(id);
         if(!logs.isEmpty()){ // If fish was found
             return ResponseEntity.ok(logs);
         }else { // Otherwise throw 404 error
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/fish-count")
+    public ResponseEntity<List<Fish>> getAllFishesByRadius(@RequestParam("latlng")Double[] latlng,
+                                                           @RequestParam(value = "radius", defaultValue = "4km") String radius) {
+        if (latlng != null) {
+            return ResponseEntity.ok(fishService.findByRadius(new GeoPoint(latlng[0], latlng[1]), radius));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @PostMapping

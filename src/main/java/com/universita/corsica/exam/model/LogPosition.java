@@ -24,8 +24,7 @@ public class LogPosition {
     public String idFish;
     @NotNull
     public GeoPoint position;
-    @NotNull
-    public DateTime date;
+    public long date;
 
     /**
      * DEFAULT CONSTRUCTOR
@@ -60,11 +59,11 @@ public class LogPosition {
         this.position = position;
     }
 
-    public DateTime getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(DateTime date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -85,7 +84,7 @@ public class LogPosition {
         return this;
     }
 
-    public LogPosition withDate(DateTime date){
+    public LogPosition withDate(long date){
         this.date = date;
         return this;
     }

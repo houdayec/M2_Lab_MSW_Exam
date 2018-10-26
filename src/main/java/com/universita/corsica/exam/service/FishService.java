@@ -5,6 +5,9 @@ import com.universita.corsica.exam.repository.FishRepository;
 import com.universita.corsica.exam.repository.LogPositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.geo.GeoPoint;
+import org.springframework.data.elasticsearch.core.query.Criteria;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -65,5 +68,9 @@ public class FishService {
         return fishRepository.save(fish);
     }
 
+    public List<Fish> findByRadius(GeoPoint origin, String radius) {
+        CriteriaQuery query = new CriteriaQuery(new Criteria("position").within(origin, radius));
+        return elasticsearchTemplate.queryForList(query, Fish.class);
+    }
 
 }

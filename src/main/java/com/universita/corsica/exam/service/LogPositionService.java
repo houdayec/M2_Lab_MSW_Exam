@@ -5,9 +5,14 @@ import com.universita.corsica.exam.model.LogPosition;
 import com.universita.corsica.exam.repository.LogPositionRepository;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -24,8 +29,7 @@ public class LogPositionService {
      * IMPLEM CRUD
      */
     public LogPosition generateLogFor(Fish fish){
-        System.out.println("last id " + logPositionRepository.findTopByOrderByIdDesc().id);
-        LogPosition logPosition = new LogPosition().withId(logPositionRepository.findTopByOrderByIdDesc().id++).withIdFish(fish.id).withDate(DateTime.now().dayOfYear().getDateTime()).withPosition(fish.position);
+        LogPosition logPosition = new LogPosition().withIdFish(fish.id).withDate(Calendar.getInstance().getTimeInMillis()).withPosition(fish.position);
         logPositionRepository.save(logPosition);
         System.out.println(logPosition);
         return logPosition;
@@ -33,6 +37,15 @@ public class LogPositionService {
 
     public List<LogPosition> getLastLogsForCurrentDayById(String id){
         return logPositionRepository.findFirst5ByIdFish(id);
+    }
+
+    public List<LogPosition> get5LastLogsById(String id){
+        Pageable pageable = new PageRequest(0, 5, Sort.Direction.ASC, "id");
+
+        Page<LogPosition> topPage = logPositionRepository.findAll(pageable);
+        List<LogPosition> lastLogs = topPage.getContent();
+
+        return lastLogs;
     }
 
     public List<LogPosition> findAll(){

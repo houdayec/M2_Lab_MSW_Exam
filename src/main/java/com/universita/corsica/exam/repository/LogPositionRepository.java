@@ -13,6 +13,4 @@ public interface LogPositionRepository extends ElasticsearchCrudRepository<LogPo
 
     List<LogPosition> findFirst5ByIdFish(String id);
 
-    LogPosition findTopByOrderByIdDesc();
-
 }
