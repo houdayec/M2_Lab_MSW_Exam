@@ -1,6 +1,7 @@
 package com.universita.corsica.exam.model;
 
 import org.joda.time.DateTime;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 
@@ -17,6 +18,8 @@ public class LogPosition {
     /**
      * INTERN STATE
      */
+    @Id
+    public Long id;
     @NotNull
     public String idFish;
     @NotNull
@@ -33,6 +36,14 @@ public class LogPosition {
     /**
      * GETTERS AND SETTERS
      */
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getIdFish() {
         return idFish;
     }
@@ -60,6 +71,10 @@ public class LogPosition {
     /**
      * FLUENT API
      */
+    public LogPosition withId(Long id){
+        this.id = id;
+        return this;
+    }
     public LogPosition withIdFish(String id){
         this.idFish = id;
         return this;

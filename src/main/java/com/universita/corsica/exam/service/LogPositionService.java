@@ -7,6 +7,9 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class that interacts with user repository
  */
@@ -21,8 +24,21 @@ public class LogPositionService {
      * IMPLEM CRUD
      */
     public LogPosition generateLogFor(Fish fish){
-        LogPosition logPosition = new LogPosition().withIdFish(fish.id).withDate(DateTime.now()).withPosition(fish.position);
+        System.out.println("last id " + logPositionRepository.findTopByOrderByIdDesc().id);
+        LogPosition logPosition = new LogPosition().withId(logPositionRepository.findTopByOrderByIdDesc().id++).withIdFish(fish.id).withDate(DateTime.now().dayOfYear().getDateTime()).withPosition(fish.position);
+        logPositionRepository.save(logPosition);
+        System.out.println(logPosition);
         return logPosition;
+    }
+
+    public List<LogPosition> getLastLogsForCurrentDayById(String id){
+        return logPositionRepository.findFirst5ByIdFish(id);
+    }
+
+    public List<LogPosition> findAll(){
+        List<LogPosition> logs = new ArrayList<>();
+        logPositionRepository.findAll().forEach(logs::add);
+        return logs;
     }
 
 }

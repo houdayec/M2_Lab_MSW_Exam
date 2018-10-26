@@ -1,7 +1,9 @@
 package com.universita.corsica.exam.controller;
 
 import com.universita.corsica.exam.model.Fish;
+import com.universita.corsica.exam.model.LogPosition;
 import com.universita.corsica.exam.service.FishService;
+import com.universita.corsica.exam.service.LogPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +18,9 @@ public class FishController {
 
     @Autowired
     private FishService fishService;
+
+    @Autowired
+    private LogPositionService logPositionService;
 
     @GetMapping
     public ResponseEntity<List<Fish>> getAllFish(){
@@ -37,13 +42,26 @@ public class FishController {
         }
     }
 
+    @GetMapping("/{id}/positions")
+    public ResponseEntity<List<LogPosition>> getLogs(@PathVariable("id") String id){
+        List<LogPosition> logs = logPositionService.getLastLogsForCurrentDayById(id);
+        if(!logs.isEmpty()){ // If fish was found
+            return ResponseEntity.ok(logs);
+        }else { // Otherwise throw 404 error
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Fish> addFish(@RequestBody Fish fish){
-        return ResponseEntity.ok(fishService.addFish(fish));
+        Fish addedFish = fishService.addFish(fish);
+        logPositionService.generateLogFor(fish);
+        return ResponseEntity.ok(addedFish);
     }
 
     @PutMapping
     public ResponseEntity<Fish> updateFish(@RequestBody Fish fish){
+        logPositionService.generateLogFor(fish);
         Fish foundFish = fishService.findById(fish.id);
         if(!foundFish.equals(null)){ // If fish was found
             return ResponseEntity.ok(fishService.updateFish(fish));
@@ -60,7 +78,6 @@ public class FishController {
         } else { // Otherwise throw 404 error
             return ResponseEntity.notFound().build();
         }
-
     }
 
 }

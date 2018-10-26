@@ -2,6 +2,7 @@ package com.universita.corsica.exam.service;
 
 import com.universita.corsica.exam.model.Fish;
 import com.universita.corsica.exam.repository.FishRepository;
+import com.universita.corsica.exam.repository.LogPositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
