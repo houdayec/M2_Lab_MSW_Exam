@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchCrudReposi
 import java.util.List;
 
 /**
- * Classe that interacts with database
+ * Class that interacts with database
  */
 public interface FishRepository extends ElasticsearchCrudRepository<Fish, String> {
 

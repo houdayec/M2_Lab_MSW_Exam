@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Class that interacts with user repository
+ * Class that interacts with fish repository
  */
 
 @Service
