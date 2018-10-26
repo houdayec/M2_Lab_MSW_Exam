@@ -22,7 +22,7 @@ public class Fish {
     public KindFish kindFish;
     public int ageInMonths;
     public GeoPoint position;
-    public boolean isProtected;
+    public boolean protectedFish;
 
     /**
      * DEFAULT CONSTRUCTOR
@@ -65,12 +65,12 @@ public class Fish {
         this.position = position;
     }
 
-    public boolean isProtected() {
-        return isProtected;
+    public boolean isProtectedFish() {
+        return protectedFish;
     }
 
-    public void setProtected(boolean aProtected) {
-        isProtected = aProtected;
+    public void setProtectedFish(boolean protectedFish) {
+        this.protectedFish = protectedFish;
     }
 
     /**
@@ -97,7 +97,7 @@ public class Fish {
     }
 
     public Fish isProtected(boolean isProtected){
-        this.isProtected = isProtected;
+        this.protectedFish = isProtected;
         return this;
     }
 
@@ -111,7 +111,7 @@ public class Fish {
                 ", kindFish=" + kindFish +
                 ", ageInMonths=" + ageInMonths +
                 ", position=" + position +
-                ", isProtected=" + isProtected +
+                ", protectedFish=" + protectedFish +
                 '}';
     }
 }

@@ -33,6 +33,16 @@ public class FishController {
         }
     }
 
+    @GetMapping("/allowed")
+    public ResponseEntity<List<Fish>> getAllFishWithRestriction(){
+        List<Fish> foundFish = fishService.findAllRestricted();
+        if(!foundFish.isEmpty()){ // If fish were found
+            return ResponseEntity.ok(foundFish);
+        }else{ // Otherwise throw 404 error
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Fish> getFishById(@PathVariable("id") String id){
         Fish foundFish = fishService.findById(id);
@@ -54,10 +64,10 @@ public class FishController {
     }
 
     @GetMapping("/fish-count")
-    public ResponseEntity<List<Fish>> getAllFishesByRadius(@RequestParam("latlng")Double[] latlng,
+    public ResponseEntity<Integer> getAllFishesByRadius(@RequestParam("latlng")Double[] latlng,
                                                            @RequestParam(value = "radius", defaultValue = "4km") String radius) {
         if (latlng != null) {
-            return ResponseEntity.ok(fishService.findByRadius(new GeoPoint(latlng[0], latlng[1]), radius));
+            return ResponseEntity.ok(fishService.findByRadius(new GeoPoint(latlng[0], latlng[1]), radius).size());
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -74,9 +84,9 @@ public class FishController {
     @PutMapping
     public ResponseEntity<Fish> updateFish(@RequestBody Fish fish){
         logPositionService.generateLogFor(fish);
-        Fish foundFish = fishService.findById(fish.id);
-        if(!foundFish.equals(null)){ // If fish was found
-            return ResponseEntity.ok(fishService.updateFish(fish));
+        Fish updatedFish = fishService.updateFish(fish);
+        if(!updatedFish.equals(null)){ // If fish was found
+            return ResponseEntity.ok(updatedFish);
         }else{ // Otherwise throw 404 error
             return ResponseEntity.notFound().build();
         }
@@ -84,9 +94,9 @@ public class FishController {
 
     @DeleteMapping(("/{id}"))
     public ResponseEntity<Fish> deleteFish(@PathVariable("id") String id) {
-        Fish foundFish = fishService.findById(id);
-        if (!foundFish.equals(null)) { // If fish was found
-            return ResponseEntity.ok(fishService.removeFish(id));
+        Fish removedFish = fishService.removeFish(id);
+        if (!removedFish.equals(null)) { // If fish was found
+            return ResponseEntity.ok(removedFish);
         } else { // Otherwise throw 404 error
             return ResponseEntity.notFound().build();
         }

@@ -52,7 +52,9 @@ public class LogPositionService {
         List<LogPosition> allLogs = new ArrayList<>();
         logPositionRepository.findAll().forEach(allLogs::add);
         for(int i=0; i < 5; i++){
-            logs.add(allLogs.get(i));
+            if(allLogs.get(i) != null){
+                logs.add(allLogs.get(i));
+            }
         }
         return logs;
     }

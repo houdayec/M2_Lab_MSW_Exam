@@ -15,6 +15,6 @@ public interface FishRepository extends ElasticsearchCrudRepository<Fish, String
      */
     Fish deleteFishById(String id);
     Fish findById(Fish fish);
-    List<Fish> findByProtected(boolean isProtected);
+    List<Fish> findByProtectedFish(boolean isProtected);
 
 }

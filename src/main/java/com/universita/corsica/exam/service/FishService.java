@@ -73,4 +73,9 @@ public class FishService {
         return elasticsearchTemplate.queryForList(query, Fish.class);
     }
 
+    public List<Fish> findAllRestricted() {
+        CriteriaQuery query = new CriteriaQuery(new Criteria("ageInMonths").greaterThan(6).and("protectedFish").is(false));
+        return elasticsearchTemplate.queryForList(query, Fish.class);
+    }
+
 }
