@@ -44,12 +44,23 @@ public class FishController {
 
     @PutMapping
     public ResponseEntity<Fish> updateFish(@RequestBody Fish fish){
-        return ResponseEntity.ok(fishService.updateFish(fish));
+        Fish foundFish = fishService.findById(fish.id);
+        if(!foundFish.equals(null)){ // If fish was found
+            return ResponseEntity.ok(fishService.updateFish(fish));
+        }else{ // Otherwise throw 404 error
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @DeleteMapping
-    public ResponseEntity<Fish> deleteFish(@PathVariable("id") String id){
-        return ResponseEntity.ok(fishService.removeFish(id));
+    @DeleteMapping(("/{id}"))
+    public ResponseEntity<Fish> deleteFish(@PathVariable("id") String id) {
+        Fish foundFish = fishService.findById(id);
+        if (!foundFish.equals(null)) { // If fish was found
+            return ResponseEntity.ok(fishService.removeFish(id));
+        } else { // Otherwise throw 404 error
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 }

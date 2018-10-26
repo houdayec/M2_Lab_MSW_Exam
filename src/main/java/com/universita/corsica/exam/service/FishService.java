@@ -29,7 +29,7 @@ public class FishService {
         int[] ages = new int [] {15, 27, 15, 12, 27, 6};
         String[] t = new String [] { "houdayer.corentin@gmail.com", "cyril.niobe@gmail.com", "anthony.seve@gmail.com", "mathieu.puertas@gmail.com", "melissa.llorens@gmail.com", "thomas.milioni@gmail.com", "emilie.aslan@gmail.com"};
         for(int i= 0; i < ages.length; i++){
-            Fish fish = new Fish().withId(String.valueOf(i)).withAge(ages[i]);
+            Fish fish = new Fish().withId(String.valueOf(i+1)).withAge(ages[i]);
             fishRepository.save(fish);
         }
     }
