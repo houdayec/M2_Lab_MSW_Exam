@@ -41,13 +41,18 @@ public class LogPositionService {
 
     public List<LogPosition> get5LastLogsById(String idFish){
 
-        /*
+        /* TRY PAGEABLE
         Pageable pageable = new PageRequest(0, 5, Sort.Direction.ASC, "idFish");
 
         Page<LogPosition> topPage = logPositionRepository.findAll(pageable);
         List<LogPosition> lastLogs = topPage.getContent();
         */
 
+        /* TRY CUSTOM METHOD
+        logPositionRepository.findByIdFishAndDateIsAfter(idFish, Calendar.getInstance().getTimeInMillis());
+        */
+
+        // DIRTY SOLUTION :-( 6 - BUT WORKING !
         List<LogPosition> logs = new ArrayList<>();
         List<LogPosition> allLogs = new ArrayList<>();
         logPositionRepository.findAll().forEach(allLogs::add);

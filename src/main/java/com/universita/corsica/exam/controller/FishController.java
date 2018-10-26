@@ -23,6 +23,10 @@ public class FishController {
     @Autowired
     private LogPositionService logPositionService;
 
+    /**
+     * Default get
+     * @return all fish
+     */
     @GetMapping
     public ResponseEntity<List<Fish>> getAllFish(){
         List<Fish> foundFish = fishService.findAll();
@@ -33,6 +37,10 @@ public class FishController {
         }
     }
 
+    /**
+     * Custom get
+     * @return all non protected fishe older than 6 months
+     */
     @GetMapping("/allowed")
     public ResponseEntity<List<Fish>> getAllFishWithRestriction(){
         List<Fish> foundFish = fishService.findAllRestricted();
@@ -43,6 +51,11 @@ public class FishController {
         }
     }
 
+    /**
+     * get a fish using its id
+     * @param id
+     * @return a single fish
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Fish> getFishById(@PathVariable("id") String id){
         Fish foundFish = fishService.findById(id);
@@ -53,6 +66,11 @@ public class FishController {
         }
     }
 
+    /**
+     * get all the historical positions of a single fish using its id
+     * @param id
+     * @return list of fish positions
+     */
     @GetMapping("/{id}/positions")
     public ResponseEntity<List<LogPosition>> getLogs(@PathVariable("id") String id){
         List<LogPosition> logs = logPositionService.get5LastLogsById(id);
@@ -63,6 +81,12 @@ public class FishController {
         }
     }
 
+    /**
+     * get number of fish that we can fish
+     * @param latlng
+     * @param radius
+     * @return an integer that is the number of allowed fish
+     */
     @GetMapping("/fish-count")
     public ResponseEntity<Integer> getAllFishesByRadius(@RequestParam("latlng")Double[] latlng,
                                                            @RequestParam(value = "radius", defaultValue = "4km") String radius) {
@@ -74,6 +98,11 @@ public class FishController {
 
     }
 
+    /**
+     * add a fish in db
+     * @param fish
+     * @return added fish
+     */
     @PostMapping
     public ResponseEntity<Fish> addFish(@RequestBody Fish fish){
         Fish addedFish = fishService.addFish(fish);
@@ -81,6 +110,11 @@ public class FishController {
         return ResponseEntity.ok(addedFish);
     }
 
+    /**
+     * update a fish in db
+     * @param fish
+     * @return updated fish
+     */
     @PutMapping
     public ResponseEntity<Fish> updateFish(@RequestBody Fish fish){
         logPositionService.generateLogFor(fish);
@@ -92,6 +126,11 @@ public class FishController {
         }
     }
 
+    /**
+     * delete a fish in db
+     * @param id
+     * @return deleted fish
+     */
     @DeleteMapping(("/{id}"))
     public ResponseEntity<Fish> deleteFish(@PathVariable("id") String id) {
         Fish removedFish = fishService.removeFish(id);

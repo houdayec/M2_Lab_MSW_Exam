@@ -14,5 +14,5 @@ import java.util.List;
 public interface LogPositionRepository extends ElasticsearchCrudRepository<LogPosition, String>{
 
     List<LogPosition> findFirst5ByIdFish(String id);
-
+    List<LogPosition> findByIdFishAndDateIsAfter(String id, long currentDate);
 }

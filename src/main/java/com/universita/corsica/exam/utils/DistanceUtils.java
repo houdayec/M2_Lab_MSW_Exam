@@ -1,5 +1,12 @@
 package com.universita.corsica.exam.utils;
 
+/**
+ * Class that holds static methods
+ */
+
+/**
+ * Method to compute distance between two coordinated points with heights 
+ */
 public class DistanceUtils {
 
     public static double distance(double lat1, double lat2, double lon1,

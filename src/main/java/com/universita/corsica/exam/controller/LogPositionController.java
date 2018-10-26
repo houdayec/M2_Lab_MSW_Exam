@@ -20,6 +20,10 @@ public class LogPositionController {
     @Autowired
     private LogPositionService logPositionService;
 
+    /**
+     * get all saved logs about all fish
+     * @return list of all logs
+     */
     @GetMapping
     public ResponseEntity<List<LogPosition>> getAllLogs(){
         List<LogPosition> logs = logPositionService.findAll();
