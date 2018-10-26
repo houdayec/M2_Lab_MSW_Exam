@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Classe that interacts with database
  */
-public interface LogPositionRepository extends ElasticsearchCrudRepository<LogPosition, Long>{
+public interface LogPositionRepository extends ElasticsearchCrudRepository<LogPosition, String>{
 
     List<LogPosition> findFirst5ByIdFish(String id);
 

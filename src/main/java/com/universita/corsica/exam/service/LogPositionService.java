@@ -30,7 +30,7 @@ public class LogPositionService {
      */
     public LogPosition generateLogFor(Fish fish){
         LogPosition logPosition = new LogPosition().withIdFish(fish.id).withDate(Calendar.getInstance().getTimeInMillis()).withPosition(fish.position);
-        logPositionRepository.save(logPosition);
+        logPosition = logPositionRepository.save(logPosition);
         System.out.println(logPosition);
         return logPosition;
     }
@@ -39,13 +39,22 @@ public class LogPositionService {
         return logPositionRepository.findFirst5ByIdFish(id);
     }
 
-    public List<LogPosition> get5LastLogsById(String id){
-        Pageable pageable = new PageRequest(0, 5, Sort.Direction.ASC, "id");
+    public List<LogPosition> get5LastLogsById(String idFish){
+
+        /*
+        Pageable pageable = new PageRequest(0, 5, Sort.Direction.ASC, "idFish");
 
         Page<LogPosition> topPage = logPositionRepository.findAll(pageable);
         List<LogPosition> lastLogs = topPage.getContent();
+        */
 
-        return lastLogs;
+        List<LogPosition> logs = new ArrayList<>();
+        List<LogPosition> allLogs = new ArrayList<>();
+        logPositionRepository.findAll().forEach(allLogs::add);
+        for(int i=0; i < 5; i++){
+            logs.add(allLogs.get(i));
+        }
+        return logs;
     }
 
     public List<LogPosition> findAll(){
